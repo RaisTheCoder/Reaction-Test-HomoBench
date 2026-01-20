@@ -46,7 +46,7 @@ button.addEventListener("click", () => {
   // Red Screen <3
   let redTime = Date.now();
   let randomTime = (Math.floor(Math.random() * 10) + 1) * 1000;
-  setTimeout(() => {
+  let reactWhen = setTimeout(() => {
     isRedScreen = true;
     container.style.backgroundColor = "rgb(206, 71, 71)";
     text.innerText = "Click now!";
@@ -90,7 +90,11 @@ button.addEventListener("click", () => {
         button.disabled = false;
         button.style.backgroundColor = "azure";
         button.style.border = "1px solid black";
+        // This needed to be here because
+        // you could easily click as fast as you can to exploit the new record
+        // You can just edit key values in the localStorage anyway.
         isRedScreen = false;
+        clearTimeout(reactWhen); // Have to clean timeouts up, because it would still work even if you clicked early.
         clearInterval(loading);
       },
       { once: true }, // Most useful thing ever!
