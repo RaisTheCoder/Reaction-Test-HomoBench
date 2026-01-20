@@ -57,10 +57,12 @@ button.addEventListener("click", () => {
     redTime = Date.now();
   }, randomTime);
 
-  setTimeout(
-    () => {
-      container.addEventListener("click", () => {
+  setTimeout(() => {
+    container.addEventListener(
+      "click",
+      () => {
         if (isRedScreen) {
+          isRedScreen = false;
           let clickTime = Date.now();
           timeTaken = clickTime - redTime;
           container.style.backgroundColor = "rgb(89, 214, 89)";
@@ -96,12 +98,11 @@ button.addEventListener("click", () => {
         // This needed to be here because
         // you could easily click as fast as you can to exploit the new record
         // You can just edit key values in the localStorage anyway.
-        isRedScreen = false;
         clearTimeout(reactWhen); // Have to clean timeouts up, because it would still work even if you clicked early.
         clearInterval(loading);
         gameRunning = false;
-      }, 1);
-    },
-    { once: true }, // Most useful thing ever!
-  );
+      },
+      { once: true }, // Most useful thing ever!
+    );
+  }, 1);
 });
