@@ -57,49 +57,50 @@ button.addEventListener("click", () => {
     redTime = Date.now();
   }, randomTime);
 
-  container.addEventListener(
-    "click",
+  setTimeout(
     () => {
-      if (isRedScreen) {
-        let clickTime = Date.now();
-        timeTaken = clickTime - redTime;
-        container.style.backgroundColor = "rgb(89, 214, 89)";
-        text.innerHTML =
-          '<i class="fa-solid fa-clock"></i> ' + `Took you ${timeTaken}ms`;
+      container.addEventListener("click", () => {
+        if (isRedScreen) {
+          let clickTime = Date.now();
+          timeTaken = clickTime - redTime;
+          container.style.backgroundColor = "rgb(89, 214, 89)";
+          text.innerHTML =
+            '<i class="fa-solid fa-clock"></i> ' + `Took you ${timeTaken}ms`;
 
-        let oldRecord = +localStorage.getItem("timeTaken");
+          let oldRecord = +localStorage.getItem("timeTaken");
 
-        // Initializing the record key in localStorage for the first time, otherwise it won't work. lol.
-        if (!oldRecord || oldRecord == null) {
-          localStorage.setItem("timeTaken", timeTaken);
-          recordDisplay.innerText = `Your Fastest Record: ${localStorage.getItem("timeTaken")}ms`;
-        } else {
-          // If found.. we'll check if the value we got is lesser than the initial/old value and decide the fastest one.
-          // (Least is the fastest)
-          if (timeTaken < +localStorage.getItem("timeTaken")) {
+          // Initializing the record key in localStorage for the first time, otherwise it won't work. lol.
+          if (!oldRecord || oldRecord == null) {
             localStorage.setItem("timeTaken", timeTaken);
-            recordDisplay.innerText = `Your Fastest Record: ${localStorage.getItem("timeTaken")}ms (${oldRecord}ms before!)\nYou were ${oldRecord - timeTaken}ms faster this try!`;
-          } else {
             recordDisplay.innerText = `Your Fastest Record: ${localStorage.getItem("timeTaken")}ms`;
+          } else {
+            // If found.. we'll check if the value we got is lesser than the initial/old value and decide the fastest one.
+            // (Least is the fastest)
+            if (timeTaken < +localStorage.getItem("timeTaken")) {
+              localStorage.setItem("timeTaken", timeTaken);
+              recordDisplay.innerText = `Your Fastest Record: ${localStorage.getItem("timeTaken")}ms (${oldRecord}ms before!)\nYou were ${oldRecord - timeTaken}ms faster this try!`;
+            } else {
+              recordDisplay.innerText = `Your Fastest Record: ${localStorage.getItem("timeTaken")}ms`;
+            }
           }
+        } else {
+          container.style.backgroundColor = "rgb(206, 71, 71)";
+          text.innerText = "Too early!";
         }
-      } else {
-        container.style.backgroundColor = "rgb(206, 71, 71)";
-        text.innerText = "Too early!";
-      }
-      container.style.cursor = "default";
-      recordDisplay.style.visibility = "visible";
-      button.innerText = "Try Again";
-      button.disabled = false;
-      button.style.backgroundColor = "azure";
-      button.style.border = "1px solid black";
-      // This needed to be here because
-      // you could easily click as fast as you can to exploit the new record
-      // You can just edit key values in the localStorage anyway.
-      isRedScreen = false;
-      clearTimeout(reactWhen); // Have to clean timeouts up, because it would still work even if you clicked early.
-      clearInterval(loading);
-      gameRunning = false;
+        container.style.cursor = "default";
+        recordDisplay.style.visibility = "visible";
+        button.innerText = "Try Again";
+        button.disabled = false;
+        button.style.backgroundColor = "azure";
+        button.style.border = "1px solid black";
+        // This needed to be here because
+        // you could easily click as fast as you can to exploit the new record
+        // You can just edit key values in the localStorage anyway.
+        isRedScreen = false;
+        clearTimeout(reactWhen); // Have to clean timeouts up, because it would still work even if you clicked early.
+        clearInterval(loading);
+        gameRunning = false;
+      }, 1);
     },
     { once: true }, // Most useful thing ever!
   );
