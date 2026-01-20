@@ -90,6 +90,7 @@ button.addEventListener("click", () => {
         button.disabled = false;
         button.style.backgroundColor = "azure";
         button.style.border = "1px solid black";
+        isRedScreen = false;
         clearInterval(loading);
       },
       { once: true }, // Most useful thing ever!
