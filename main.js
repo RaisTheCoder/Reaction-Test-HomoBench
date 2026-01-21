@@ -86,6 +86,7 @@ button.addEventListener("click", () => {
             }
           }
         } else {
+          recordDisplay.innerText = `Your Fastest Record: ${localStorage.getItem("timeTaken")}ms`;
           container.style.backgroundColor = "rgb(206, 71, 71)";
           text.innerText = "Too early!";
         }
